@@ -89,7 +89,7 @@
         });
 
         const data = await res.json();
-        responseDiv.textContent = `✅ ${data.message || "Successfully submitted!"}`;
+        responseDiv.textContent = `✅ ${data.message || "Successfully submitted! Please check your email"}`;
         responseDiv.style.color = 'green';
       } catch (err) {
         responseDiv.textContent = '❌ Failed to submit. Please try again.';
