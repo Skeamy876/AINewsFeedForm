@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>One-Click AI News Messenger</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #2c3e50, #4ca1af);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem 3rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      color: #2c3e50;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+
+    button {
+      background: #3498db;
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #2980b9;
+    }
+
+    .response {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>One-Click AI News Messenger</h1>
+    <form id="newsForm">
+      <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      <button type="submit">Subscribe</button>
+      <div class="response" id="responseMessage"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('newsForm');
+    const responseDiv = document.getElementById('responseMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+
+      try {
+        const res = await fetch('http://localhost:5678/webhook/64f34220-c4f8-4769-81a5-82ba51727836', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email })
+        });
+
+        const data = await res.json();
+        responseDiv.textContent = `✅ ${data.message || "Successfully submitted!"}`;
+        responseDiv.style.color = 'green';
+      } catch (err) {
+        responseDiv.textContent = '❌ Failed to submit. Please try again.';
+        responseDiv.style.color = 'red';
+      }
+    });
+  </script>
+
+</body>
+</html>
